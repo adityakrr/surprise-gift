@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Surprise</title>
+    <style>
+        body {
+            font-family: 'Helvetica Neue', sans-serif;
+            text-align: center;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            position: relative;
+            background-color: #ADD8E6; /* Solid background color */
+            transition: background-color 1s ease; /* Transition for background color change */
+        }
+        h1, h2, button {
+            transition: opacity 0.5s ease-in-out;
+        }
+        h1 {
+            font-size: 2.5rem;
+            margin-top: 15vh;
+            color: #222;
+        }
+        #aprilFoolText {
+            font-size: 2.5rem;
+            color: white;
+            display: none;
+            position: absolute;
+            top: 160%; /* Adjusted position */
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation: shake 0.5s infinite;
+        }
+        .giftBox {
+            display: inline-block;
+            margin: 10px;
+            cursor: pointer;
+            width: 120px;
+            height: 120px;
+            background-color: #FF5722;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            transition: transform 0.2s ease-in-out;
+            text-align: center;
+            line-height: 120px;
+            color: white;
+            font-size: 1.2rem;
+            font-weight: bold;
+            position: relative;
+        }
+        .giftBox:hover {
+            transform: scale(1.1);
+        }
+        .giftGif {
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            max-width: 80%; /* Ensuring the gif doesn't exceed 80% of the screen width */
+            height: auto;
+        }
+        @keyframes shake {
+            0% { transform: translate(-50%, -50%) rotate(0deg); }
+            25% { transform: translate(-50%, -50%) rotate(5deg); }
+            50% { transform: translate(-50%, -50%) rotate(-5deg); }
+            75% { transform: translate(-50%, -50%) rotate(5deg); }
+            100% { transform: translate(-50%, -50%) rotate(0deg); }
+        }
+        .emoji {
+            font-size: 3rem;
+            position: absolute;
+            bottom: -40px; /* Position below the gift box */
+            left: 50%;
+            transform: translateX(-50%);
+        }
+    </style>
+</head>
+<body>
+    <h1 id="mainTitle">Choose your gift!</h1>
+    <div id="giftBoxes">
+        <div class="giftBox" id="giftBox1" onclick="triggerPrank(1)">
+            Boy's Gift
+            <div id="boyEmoji" class="emoji">👦</div>
+        </div>
+        <div class="giftBox" id="giftBox2" onclick="triggerPrank(2)">
+            Girl's Gift
+            <div id="girlEmoji" class="emoji">👧</div>
+        </div>
+    </div>
+    <img src="boys1.gif" class="giftGif" id="gif1">
+    <img src="girls.gif" class="giftGif" id="gif2">
+    <h2 id="aprilFoolText">April Fool! 😂</h2>
+    
+    <audio id="laughingSound" src="laugh.m4a" preload="auto"></audio>
+    
+    <script>
+        function triggerPrank(gift) {
+            let giftGifs = document.querySelectorAll('.giftGif');
+            let mainTitle = document.getElementById("mainTitle");
+            let giftBox1 = document.getElementById("giftBox1");
+            let giftBox2 = document.getElementById("giftBox2");
+            let aprilFoolText = document.getElementById("aprilFoolText");
+            
+            document.body.style.backgroundColor = "none"; 
+            mainTitle.style.opacity = "0";
+            giftBox1.style.opacity = "0";
+            giftBox2.style.opacity = "0";
+            document.getElementById("boyEmoji").style.opacity = "0";
+            document.getElementById("girlEmoji").style.opacity = "0";
+            
+            giftGifs.forEach((gif) => {
+                gif.style.transform = "translate(-50%, -50%) scale(0)";
+                gif.style.display = "none";
+            });
+
+            setTimeout(() => {
+                let laughingSound = document.getElementById("laughingSound");
+                laughingSound.play();
+                
+                changeBackgroundColor();
+                changeTextColor();
+                
+                let selectedGif = document.getElementById("gif" + gift);
+                selectedGif.style.transform = "translate(-50%, -50%) scale(1)";
+                selectedGif.style.display = "block";
+                aprilFoolText.style.display = "block";
+            }, 1000);
+        }
+
+        function changeBackgroundColor() {
+            let colors = ['#FF5733', '#33FF57', '#5733FF', '#F0F8FF', '#F4A300', '#FF007F', '#8A2BE2', '#7FFF00', '#DC143C'];
+            let randomColor = colors[Math.floor(Math.random() * colors.length)];
+            document.body.style.backgroundColor = randomColor;
+            setTimeout(changeBackgroundColor, 1000);
+        }
+
+        function changeTextColor() {
+            let colors = ['#FF0000', '#00FF00', '#0000FF', '#FF00FF', '#FFFF00', '#00FFFF', '#FF4500', '#8A2BE2', '#DC143C'];
+            setInterval(() => {
+                let randomColor = colors[Math.floor(Math.random() * colors.length)];
+                document.getElementById("aprilFoolText").style.color = randomColor;
+            }, 500);
+        }
+    </script>
+</body>
+</html>
